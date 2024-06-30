@@ -24,9 +24,8 @@ ___
 
 - [Java](https://www.oracle.com/java/technologies/downloads/)
 - [Gradle](https://docs.gradle.org/current/userguide/userguide.html)
-- [MySQL](https://dev.mysql.com/downloads/mysql/)
+- [PostgresSQL](https://www.postgresql.org/)
 - [Spring Boot](https://spring.io/projects/spring-boot)
-- [Spring Batch](https://spring.io/projects/spring-batch)
 
 ___
 
