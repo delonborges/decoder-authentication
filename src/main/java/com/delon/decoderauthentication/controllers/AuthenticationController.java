@@ -5,6 +5,7 @@ import com.delon.decoderauthentication.entities.UserEntity;
 import com.delon.decoderauthentication.enums.UserStatus;
 import com.delon.decoderauthentication.enums.UserType;
 import com.delon.decoderauthentication.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ import java.time.ZoneId;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    private static final String EMAIL_ALREADY_EXISTS = "Email already exists";
+    private static final String USERNAME_ALREADY_EXISTS = "Username already exists";
+
     private final UserService userService;
 
     public AuthenticationController(UserService userService) {
@@ -25,26 +29,20 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> signUp(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Object> signUp(@RequestBody @JsonView(UserDTO.UserView.RegistrationPost.class) UserDTO userDTO) {
         if (userService.existsByUsername(userDTO.username())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(USERNAME_ALREADY_EXISTS);
         } else if (userService.existsByEmail(userDTO.email())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(EMAIL_ALREADY_EXISTS);
         } else {
-            UserEntity newUser = createUserEntity(userDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+            var userEntity = new UserEntity();
+            BeanUtils.copyProperties(userDTO, userEntity);
+            userEntity.setUserStatus(UserStatus.ACTIVE);
+            userEntity.setUserType(UserType.STUDENT);
+            userEntity.setCreatedDate(LocalDateTime.now(ZoneId.of("UTC")));
+            userEntity.setUpdatedDate(LocalDateTime.now(ZoneId.of("UTC")));
+            userService.save(userEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userEntity);
         }
-    }
-
-    private UserEntity createUserEntity(UserDTO userDTO) {
-        var currentTime = LocalDateTime.now(ZoneId.of("UTC"));
-        var userEntity = new UserEntity();
-        BeanUtils.copyProperties(userDTO, userEntity);
-        userEntity.setUserStatus(UserStatus.ACTIVE);
-        userEntity.setUserType(UserType.STUDENT);
-        userEntity.setCreatedDate(currentTime);
-        userEntity.setUpdatedDate(currentTime);
-        userService.save(userEntity);
-        return userEntity;
     }
 }
