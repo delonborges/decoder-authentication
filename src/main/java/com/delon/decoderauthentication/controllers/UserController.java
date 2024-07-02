@@ -6,6 +6,7 @@ import com.delon.decoderauthentication.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -54,7 +55,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateUserById(@PathVariable(value = "userId") UUID userId, @RequestBody @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO) {
+    public ResponseEntity<String> updateUserById(@PathVariable(value = "userId") UUID userId,
+                                                 @Validated(UserDTO.UserView.UserPut.class) @RequestBody @JsonView(UserDTO.UserView.UserPut.class) UserDTO userDTO) {
         Optional<UserEntity> userEntity = userService.findById(userId);
         return userEntity.map(entity -> {
             entity.setFullName(userDTO.fullName());
@@ -67,7 +69,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/password")
-    public ResponseEntity<String> updatePasswordById(@PathVariable(value = "userId") UUID userId, @RequestBody @JsonView(UserDTO.UserView.PasswordPut.class) UserDTO userDTO) {
+    public ResponseEntity<String> updatePasswordById(@PathVariable(value = "userId") UUID userId,
+                                                     @RequestBody @Validated(UserDTO.UserView.PasswordPut.class) @JsonView(UserDTO.UserView.PasswordPut.class) UserDTO userDTO) {
         Optional<UserEntity> userEntity = userService.findById(userId);
         if (userEntity.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
@@ -83,7 +86,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/image")
-    public ResponseEntity<String> updateImageById(@PathVariable(value = "userId") UUID userId, @RequestBody @JsonView(UserDTO.UserView.ImagePut.class) UserDTO userDTO) {
+    public ResponseEntity<String> updateImageById(@PathVariable(value = "userId") UUID userId,
+                                                  @RequestBody @Validated(UserDTO.UserView.ImagePut.class) @JsonView(UserDTO.UserView.ImagePut.class) UserDTO userDTO) {
         Optional<UserEntity> userEntity = userService.findById(userId);
         return userEntity.map(entity -> {
             entity.setImageUrl(userDTO.imageUrl());
