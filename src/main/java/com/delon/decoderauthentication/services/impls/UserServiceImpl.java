@@ -1,4 +1,4 @@
-package com.delon.decoderauthentication.services.impl;
+package com.delon.decoderauthentication.services.impls;
 
 import com.delon.decoderauthentication.entities.UserEntity;
 import com.delon.decoderauthentication.repositories.UserRepository;
