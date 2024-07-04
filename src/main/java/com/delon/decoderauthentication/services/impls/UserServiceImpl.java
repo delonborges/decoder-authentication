@@ -5,9 +5,9 @@ import com.delon.decoderauthentication.repositories.UserRepository;
 import com.delon.decoderauthentication.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,11 +18,6 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    @Override
-    public List<UserEntity> findAll() {
-        return userRepository.findAll();
     }
 
     @Override
@@ -51,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserEntity> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserEntity> findAll(Specification<UserEntity> spec, Pageable pageable) {
+        return userRepository.findAll(spec, pageable);
     }
 }
