@@ -3,6 +3,8 @@ package com.delon.decoderauthentication.services.impls;
 import com.delon.decoderauthentication.entities.UserEntity;
 import com.delon.decoderauthentication.repositories.UserRepository;
 import com.delon.decoderauthentication.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Page<UserEntity> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
