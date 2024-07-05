@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,8 +18,9 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "tb_users")
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserEntity implements Serializable {
+public class UserEntity extends RepresentationModel<UserEntity> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5408719978166175663L;
