@@ -2,7 +2,7 @@ spring:
   application:
     name: decoder-authentication
   datasource:
-    url: jdbc:postgresql://localhost:5432/decoder-authentication
+    url: jdbc:postgresql://localhost:5431/decoder-authentication
     username: postgres
     password: password
   jpa:

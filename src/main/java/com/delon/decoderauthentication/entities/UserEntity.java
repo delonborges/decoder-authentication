@@ -2,7 +2,6 @@ package com.delon.decoderauthentication.entities;
 
 import com.delon.decoderauthentication.enums.UserStatus;
 import com.delon.decoderauthentication.enums.UserType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -60,10 +59,8 @@ public class UserEntity extends RepresentationModel<UserEntity> implements Seria
     private String imageUrl;
 
     @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedDate;
 }
