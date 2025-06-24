@@ -15,6 +15,16 @@ spring:
             non-contextual-creation: true
         show_sql: true
     open-in-view: false
+  output:
+    ansi:
+      enabled: always
 
 server:
   port: 8087
+
+logging:
+  level:
+    com.delon.decoderauthentication: trace
+    org.hibernate: info
+    root: info
+    web: debug
