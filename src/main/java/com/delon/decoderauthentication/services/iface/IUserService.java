@@ -1,4 +1,4 @@
-package com.delon.decoderauthentication.services;
+package com.delon.decoderauthentication.services.iface;
 
 import com.delon.decoderauthentication.entities.UserEntity;
 import org.springframework.data.domain.Page;
@@ -8,7 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserService {
+public interface IUserService {
+
     Optional<UserEntity> findById(UUID userId);
 
     void delete(UserEntity userEntity);

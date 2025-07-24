@@ -13,5 +13,4 @@ public class AuthMessages {
     public String LOG_USERNAME_EXISTS = "Registration attempt with existing username: [{}]";
     public String LOG_USER_REGISTERED = "User registered successfully.";
     public String USERNAME_ALREADY_EXISTS = "Username already exists";
-
 }

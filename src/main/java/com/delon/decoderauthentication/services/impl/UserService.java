@@ -1,8 +1,8 @@
-package com.delon.decoderauthentication.services.impls;
+package com.delon.decoderauthentication.services.impl;
 
 import com.delon.decoderauthentication.entities.UserEntity;
 import com.delon.decoderauthentication.repositories.UserRepository;
-import com.delon.decoderauthentication.services.UserService;
+import com.delon.decoderauthentication.services.iface.IUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

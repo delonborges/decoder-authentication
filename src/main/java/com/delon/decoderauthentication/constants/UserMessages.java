@@ -28,5 +28,4 @@ public class UserMessages {
     public String USER_DELETED_SUCCESSFULLY = "User deleted successfully";
     public String USER_NOT_FOUND = "User not found";
     public String USER_UPDATED_SUCCESSFULLY = "User updated successfully";
-
 }

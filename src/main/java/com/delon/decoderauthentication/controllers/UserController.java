@@ -3,13 +3,14 @@ package com.delon.decoderauthentication.controllers;
 import com.delon.decoderauthentication.constants.UserMessages;
 import com.delon.decoderauthentication.dtos.UserDTO;
 import com.delon.decoderauthentication.entities.UserEntity;
-import com.delon.decoderauthentication.services.UserService;
+import com.delon.decoderauthentication.services.iface.IUserService;
 import com.delon.decoderauthentication.specifications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,20 +31,23 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
     public ResponseEntity<Page<UserEntity>> getAllUsers(SpecificationTemplate.UserSpec spec,
-                                                        @PageableDefault(sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+                                                        @PageableDefault(sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
+                                                        @RequestParam(required = false) UUID courseId) {
+
         log.debug(UserMessages.LOG_GETTING_USERS_WITH_SPEC, spec);
-        Page<UserEntity> users = userService.findAll(spec, pageable);
-        users.toList().forEach(user -> user.add(linkTo(methodOn(UserController.class).getUserById(user.getUserId())).withSelfRel()));
+        Specification<UserEntity> finalSpec = courseId != null ? SpecificationTemplate.userCourseId(courseId).and(spec) : spec;
+        Page<UserEntity> users = userService.findAll(finalSpec, pageable);
+        users.getContent().forEach(user -> user.add(linkTo(methodOn(UserController.class).getUserById(user.getUserId())).withSelfRel()));
         log.info(UserMessages.LOG_USERS_RETRIEVED, users.getNumberOfElements());
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")

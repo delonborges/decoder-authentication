@@ -5,7 +5,7 @@ import com.delon.decoderauthentication.dtos.UserDTO;
 import com.delon.decoderauthentication.entities.UserEntity;
 import com.delon.decoderauthentication.enums.UserStatus;
 import com.delon.decoderauthentication.enums.UserType;
-import com.delon.decoderauthentication.services.UserService;
+import com.delon.decoderauthentication.services.iface.IUserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
@@ -23,9 +23,9 @@ import java.time.ZoneId;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public AuthenticationController(UserService userService) {
+    public AuthenticationController(IUserService userService) {
         this.userService = userService;
     }
 

@@ -20,5 +20,4 @@ public class DateTimeConfig {
             builder.deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT)));
         };
     }
-
 }
